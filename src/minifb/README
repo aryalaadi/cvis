@@ -1,0 +1,3 @@
+upstream: github.com/emoon/minifb
+
+stripped to have only Linux support
