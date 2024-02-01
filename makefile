@@ -15,7 +15,7 @@ all:
 	@$(CC) -c $(INC) $(LIN) src/minifb/src/x11/X11MiniFB.c -o build/X11MiniFB.o
 	@ar rcs build/libsyskFB.a build/*.o
 	@echo "LIB miniFB.a"
-	@gcc -Wall -Werror -pedantic -std=c11 src/cvis.c -Isrc/minifb/include build/libsyskFB.a -lGL -lX11 -lm -o build/cvis
+	@gcc -Wall -Werror -pedantic -std=c11 src/cvis.c src/eval.c -Isrc/ -Isrc/minifb/include build/libsyskFB.a -lGL -lX11 -lm -o build/cvis
 	@echo "CC cvis.c"
 
 clean: 
