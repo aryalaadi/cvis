@@ -10,30 +10,28 @@
 #include <string.h>
 #include <math.h>
 
+#include <eval.h>
+
 static uint32_t g_width = 600;
 static uint32_t g_height = 600;
 static uint32_t *g_buffer = 0x0;
 
 char *expr = NULL;
-float f(float y) {
-	if (expr == NULL) {
-		return sin(y);
-	}
-	else {
-		// TODO: parse and eval expr 
-		return 0;
-	}
-}
+
 int main(int argc, char **argv ){
 
 	if (argc == 1) {
-		printf("CVIS: plotting default function x=sin(y)");	
+		printf("CVIS: plotting default function y=x+5\n");	
+		expr = malloc(sizeof(char)*32);
+		strcpy(expr, "x+5");
 	}
 	else {
 		expr = malloc(sizeof(char)*32);
 		strncpy(expr, argv[1], strlen(argv[1]));
 		printf("CVIS: could not parse the expr");
 	}
+	// FIXME
+	printf("NOTE: the graph is inverted due to skill issue reasons");
 	fflush(stdout);
   	struct mfb_window *window = mfb_open_ex("CVIS", g_width, g_height, 0);
   	if (!window)
@@ -79,7 +77,7 @@ int main(int argc, char **argv ){
 
 			double ftx = tx/75.0;
 			double fty = ty/75.0;
-			double d = fabs(ftx - f(fty));		
+			double d = fabs(ftx - eval(expr, fty));		
 			if (d < 0.01) {
 				g_buffer[i] = MFB_RGB(0x00, 0x00, 0xFF);			
 			}
